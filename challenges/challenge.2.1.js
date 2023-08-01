@@ -20,8 +20,20 @@ import { Job, Candidate, Skill } from '../common/model.js';
  */
 const filterByDate = (jobs, startDate, endDate) => {
   // ----- Challenge 2.1.1 - Complete the function here ---- //
+  let filteredDate = [];
 
-  return [];
+  for(let value of jobs){
+
+    if(startDate <= value.startDate && value.startDate <= endDate ){
+      
+      filteredDate.push(value);
+
+    }
+    
+  }
+
+   return filteredDate; 
+
 };
 
 /**
@@ -34,7 +46,15 @@ const filterByDate = (jobs, startDate, endDate) => {
 const filterByBornAfter = (candidates, date) => {
   // ----- Challenge 2.1.2 - Complete the function here ---- //
 
-  return [];
+  let filteredCandidates = [];
+
+  for(let value of candidates){
+
+    if(value.dateOfBirth >= date){
+      filteredCandidates.push(value);
+    }
+  }
+  return filteredCandidates;
 };
 
 /**
