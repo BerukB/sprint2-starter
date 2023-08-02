@@ -22,17 +22,17 @@ const filterByDate = (jobs, startDate, endDate) => {
   // ----- Challenge 2.1.1 - Complete the function here ---- //
   let filteredDate = [];
 
-  for(let value of jobs){
+  for (let value of jobs) {
 
-    if(startDate <= value.startDate && value.startDate <= endDate ){
-      
+    if (startDate <= value.startDate && value.startDate <= endDate) {
+
       filteredDate.push(value);
 
     }
-    
+
   }
 
-   return filteredDate; 
+  return filteredDate;
 
 };
 
@@ -48,9 +48,9 @@ const filterByBornAfter = (candidates, date) => {
 
   let filteredCandidates = [];
 
-  for(let value of candidates){
+  for (let value of candidates) {
 
-    if(value.dateOfBirth >= date){
+    if (value.dateOfBirth >= date) {
       filteredCandidates.push(value);
     }
   }
@@ -65,9 +65,20 @@ const filterByBornAfter = (candidates, date) => {
  * @returns
  */
 const orderBySkills = (candidateList) => {
-  // ----- Challenge 2.1.3 - Complete the function here ---- //
+  for (let i = 1; i < candidateList.length; i++) {
+
+    let current = candidateList[i].skills.length;
+    let temp = candidateList[i];
+    let j = i - 1;
+    while (j >= 0 && candidateList[j].skills.length < current) {
+      candidateList[j + 1] = candidateList[j];
+      j--;
+    }
+    candidateList[j + 1] = temp;
+  }
 
   return candidateList;
+
 };
 
 /**
@@ -78,8 +89,36 @@ const orderBySkills = (candidateList) => {
  * @param {Array<Candidate>} candidateList
  * @returns
  */
+
+const sumSkill = (skill) => {
+  if(skill.length == 1){
+    return skill.value;
+  }else if(skill.length <=0){
+    return 0;
+  }
+  
+    let sum = 0;
+    for (let value of skill) {
+      sum += value.level;
+    }
+    return sum;
+  }
+
 const orderByWeightedSkills = (candidateList) => {
-  // ----- Challenge 2.1.4 - Complete the function here ---- //
+  for (let i = 1; i < candidateList.length; i++) {
+    
+    let currentSumSkill = sumSkill(candidateList[i].skills);
+    let currentCandidate = candidateList[i];
+    let j = i - 1;
+
+    while (j >= 0 && sumSkill(candidateList[j].skills) < currentSumSkill) {
+      candidateList[j + 1] = candidateList[j];
+      j--
+    }
+    candidateList[j + 1] = currentCandidate;
+  }
+
+  return candidateList;
 
   return candidateList;
 };
@@ -91,7 +130,18 @@ const orderByWeightedSkills = (candidateList) => {
  */
 const genderRatio = (candidateList) => {
 
-  // ----- Challenge 2.1.5 - Complete the function here ---- //
+  let numberOfMale = 0;
+  let numberOfFemale = 0;
+
+  for (let value of candidateList) {
+
+    if (value.gender === 'M') {
+      numberOfMale++;
+    } else
+      numberOfFemale++;
+  }
+
+  return numberOfFemale / numberOfMale;
 };
 
 /**
@@ -101,9 +151,39 @@ const genderRatio = (candidateList) => {
  * @returns number (0-11)
  */
 const busiestMonth = (jobs) => {
-  // ----- Challenge 2.1.6 - Complete the function here ---- //
 
-  return 0;
+  const months = ["January", "February", "March", "April", "May", "June", "July",
+    "August", "September", "October", "November", "December"];
+
+  let busiestDate = [];
+  let count = 1;
+
+  for (let value of jobs) {
+    let temp = 0;
+
+    for (let val of jobs) {
+
+      if (value.startDate.getMonth() == val.startDate.getMonth()) {
+        temp++;
+      }
+    }
+    if (temp == count && !busiestDate.includes(value.startDate.getMonth())) {
+
+      count = temp;
+      busiestDate.push(value.startDate.getMonth());
+
+    } else if (temp > count) {
+
+      count = temp;
+      busiestDate.length = 0;
+      busiestDate.push(value.startDate.getMonth());
+
+    }
+
+  }
+
+  return busiestDate.map(index => months[index]);
+
 };
 
 /**
@@ -112,9 +192,46 @@ const busiestMonth = (jobs) => {
  *
  * @param {Array<Job>} jobs
  */
+
+const mergSkills = (jobs) => {
+
+  const mergedArray = [...jobs[0].requiredSkills];
+
+  for(let i=1; i<jobs.length; i++){
+    mergedArray.push(...jobs[i].requiredSkills);
+  }
+  
+  
+  return mergedArray
+}
+
 const mostInDemandSkill = (jobs) => {
 
-  // ----- Challenge 2.1.7 - Complete the function here ---- //
+  let mergedArray = mergSkills(jobs);
+
+  let repo = [];
+  let counter = 1;
+
+for(let i in mergedArray){
+  let temp = 0;
+  
+  for (let j in mergedArray){
+      if(mergedArray[i]==mergedArray[j]){
+          temp++;
+      }
+  }
+  if(temp == counter &&  !repo.includes(mergedArray[i])){
+      counter = temp;
+      repo.push( mergedArray[i]);
+  }
+  else if( temp > counter){
+      counter = temp;
+      repo.length = 0;
+      repo.push( mergedArray[i]);
+  }
+}
+return repo;
+
 
 };
 
