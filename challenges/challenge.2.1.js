@@ -120,8 +120,7 @@ const orderByWeightedSkills = (candidateList) => {
 
   return candidateList;
 
-  return candidateList;
-};
+  };
 
 /**
  * Return the ratio of female/male candidates in the list

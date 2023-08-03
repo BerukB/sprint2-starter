@@ -29,9 +29,25 @@ import { Candidate } from '../common/model.js';
  * @returns String
  */
 const normalizedName = (name) => {
-  // ----- Challenge 2.2.1 - Complete the function here ---- //
+  const vowels = /([aeiouAEIOU])/g;
+  const regex = /[^a-zA-Z]/g;
+  const firstLetter = name.charAt(0);
+  const noVowels = name.replace(vowels, "");
+  const noRegex = noVowels.replace(regex, "");
+  const preparedName = firstLetter.concat(noRegex);
 
-  return name;
+  let finalizedName = "";
+
+  for (let value of preparedName) {
+
+    if (!finalizedName.includes(value)) {
+      finalizedName += value;
+    }
+
+  }
+  const upperCase = finalizedName.toUpperCase();
+
+  return upperCase;
 };
 
 /**
@@ -44,9 +60,18 @@ const normalizedName = (name) => {
  * @returns true or false
  */
 const areSimilarCandidates = (candidate1, candidate2) => {
-  // ----- Challenge 2.2.2 - Complete the function here ---- //
+
+  const candidate1Name = normalizedName(candidate1.name);
+  const candidate2Name = normalizedName(candidate2.name);
+  let candidate1Dob = candidate1.dateOfBirth;
+  let candidate2Dob = candidate2.dateOfBirth;
+  const dobDifference = Math.abs(candidate1Dob - candidate2Dob);
+
+
+  if (candidate1Name == candidate2Name && dobDifference < 10) return true;
 
   return false;
+
 };
 
 /**
@@ -57,9 +82,16 @@ const areSimilarCandidates = (candidate1, candidate2) => {
  * @param {Array<Candidate>} candidateList
  */
 const possibleDuplicates = (newCandidate, candidateList) => {
-  // ------ Challenge 2.2.3 - Complete the function here ---- //
 
-  return [];
+  const possibleDup = candidateList.filter((candiddates) => {
+
+    return areSimilarCandidates(newCandidate, candiddates);
+
+  });
+
+
+  return possibleDup;
+
 };
 
 /**
@@ -78,8 +110,20 @@ const possibleDuplicates = (newCandidate, candidateList) => {
  * @returns
  */
 const candidateIndex = (candidateList) => {
-  // ------ Challenge 2.2.4 - Complete the function here ---- //
-  return 0;
+  let candidateIndex = {};
+
+  for (let value of candidateList) {
+
+    let normalName = normalizedName(value.name);
+
+    if (candidateIndex.hasOwnProperty(normalName)) {
+      candidateIndex[normalName].push(value)
+    } else
+      candidateIndex[normalName] = [value];
+
+  }
+  return candidateIndex;
+
 };
 
 /**
@@ -93,7 +137,7 @@ const candidateIndex = (candidateList) => {
  * @returns
  */
 const duplicateCount = (candidateList) => {
-  // ------ Challenge 2.2.5 - Complete the function here ---- //
+  // ------ Challenge 2.2.5 - Complete the function here ---- //\
   return 0;
 };
 
