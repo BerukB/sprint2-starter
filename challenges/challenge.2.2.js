@@ -65,10 +65,10 @@ const areSimilarCandidates = (candidate1, candidate2) => {
   const candidate2Name = normalizedName(candidate2.name);
   let candidate1Dob = candidate1.dateOfBirth;
   let candidate2Dob = candidate2.dateOfBirth;
-  const dobDifference = Math.abs(candidate1Dob - candidate2Dob);
+  const dobDifferenceInMs = Math.abs(candidate1Dob.getTime() - candidate2Dob.getTime());
+  const dobDifferenceInDays = Math.floor(dobDifferenceInMs / (1000 * 60 * 60 * 24));
 
-
-  if (candidate1Name == candidate2Name && dobDifference < 10) return true;
+  if (candidate1Name == candidate2Name && dobDifferenceInDays < 10) return true;
 
   return false;
 

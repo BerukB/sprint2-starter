@@ -18,9 +18,23 @@ import { Candidate, Job } from '../common/model.js';
  * @param {Skill} jobSkill
  */
 const skillsMatch = (candidateSkill, jobSkill) => {
-  // ----- Challenge 2.3.1 - Complete the function here ---- //
+
+  const cS = candidateSkill.skills;
+  const jS = jobSkill.requiredSkills;
+
+  for (let value of cS) {
+    let cSkill = value.name;
+    console.log(cSkill);
+    for (let key of jS) {
+      let jSkill = key.name;
+      if (cSkill == jSkill) {
+        return true;
+      }
+    }
+  }
 
   return false;
+
 };
 
 /**
