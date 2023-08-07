@@ -18,23 +18,25 @@ import { Candidate, Job } from '../common/model.js';
  * @param {Skill} jobSkill
  */
 const skillsMatch = (candidateSkill, jobSkill) => {
+  // const cS = candidateSkill.skills;
+  // const jS = jobSkill.requiredSkills;
 
-  const cS = candidateSkill.skills;
-  const jS = jobSkill.requiredSkills;
+  // for (let value of cS) {
+  //   let cSkill = value.name;
+  //   console.log(cSkill);
+  //   for (let key of jS) {
+  //     let jSkill = key.name;
+  //     if (cSkill == jSkill) {
+  //       return true;
+  //     }
+  //   }
+  // }
+  const cSName = candidateSkill.name.toLowerCase();
+  const jSName = candidateSkill.name.toLowerCase();
+  const cSLevel = candidateSkill.level;
+  const jSLevel = jobSkill.level;
 
-  for (let value of cS) {
-    let cSkill = value.name;
-    console.log(cSkill);
-    for (let key of jS) {
-      let jSkill = key.name;
-      if (cSkill == jSkill) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-
+  return cSName === jSName && jSLevel >= cSLevel;
 };
 
 /**
@@ -47,7 +49,9 @@ const skillsMatch = (candidateSkill, jobSkill) => {
  */
 const suitableGender = (candidate, job) => {
   // ----- Challenge 2.3.2 - Complete the function here ---- //
-  return false;
+  return (
+    candidate.gender === job.requiredGender || job.requiredGender === undefined
+  );
 };
 
 /**
