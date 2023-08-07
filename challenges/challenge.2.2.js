@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Candidate } from "../common/model.js";
+import { Candidate } from '../common/model.js';
 
 /**
  * Part 2: Duplicate Candidate Detection
@@ -32,11 +32,11 @@ const normalizedName = (name) => {
   const vowels = /([aeiouAEIOU])/g;
   const regex = /[^a-zA-Z]/g;
   const firstLetter = name.charAt(0);
-  const noVowels = name.replace(vowels, "");
-  const noRegex = noVowels.replace(regex, "");
+  const noVowels = name.replace(vowels, '');
+  const noRegex = noVowels.replace(regex, '');
   const preparedName = firstLetter.concat(noRegex);
 
-  let finalizedName = "";
+  let finalizedName = '';
 
   for (const value of preparedName) {
     if (!finalizedName.includes(value)) {
@@ -109,6 +109,7 @@ const candidateIndex = (candidateList) => {
 
   candidateList.forEach((candidate) => {
     const normalName = normalizedName(candidate.name);
+    // eslint-disable-next-line no-prototype-builtins
     if (candidateIndex.hasOwnProperty(normalName)) {
       candidateIndex[normalName].push(candidate);
     } else candidateIndex[normalName] = [candidate];
