@@ -18,19 +18,6 @@ import { Candidate, Job } from '../common/model.js';
  * @param {Skill} jobSkill
  */
 const skillsMatch = (candidateSkill, jobSkill) => {
-  // const cS = candidateSkill.skills;
-  // const jS = jobSkill.requiredSkills;
-
-  // for (let value of cS) {
-  //   let cSkill = value.name;
-  //   console.log(cSkill);
-  //   for (let key of jS) {
-  //     let jSkill = key.name;
-  //     if (cSkill == jSkill) {
-  //       return true;
-  //     }
-  //   }
-  // }
   const cSName = candidateSkill.name.toLowerCase();
   const jSName = candidateSkill.name.toLowerCase();
   const cSLevel = candidateSkill.level;

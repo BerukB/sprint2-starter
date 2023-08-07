@@ -114,16 +114,6 @@ const candidateIndex = (candidateList) => {
     } else candidateIndex[normalName] = [candidate];
   });
 
-  // for (let value of candidateList) {
-
-  //   let normalName = normalizedName(value.name);
-
-  //   if (candidateIndex.hasOwnProperty(normalName)) {
-  //     candidateIndex[normalName].push(value)
-  //   } else
-  //     candidateIndex[normalName] = [value];
-
-  // }
   return candidateIndex;
 };
 
@@ -139,7 +129,16 @@ const candidateIndex = (candidateList) => {
  */
 const duplicateCount = (candidateList) => {
   // ------ Challenge 2.2.5 - Complete the function here ---- //\
-  return 0;
+  const possibleDup = candidateIndex(candidateList);
+  let dupCount = 0;
+
+  for (const keys in possibleDup) {
+    if (possibleDup[keys].length > 1) {
+      dupCount++;
+    }
+  }
+
+  return dupCount;
 };
 
 export {
