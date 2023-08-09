@@ -130,16 +130,19 @@ const candidateIndex = (candidateList) => {
  */
 const duplicateCount = (candidateList) => {
   // ------ Challenge 2.2.5 - Complete the function here ---- //\
-  const possibleDup = candidateIndex(candidateList);
-  let dupCount = 0;
+  let duplicateCount = 0;
+  const duplicated = [];
 
-  for (const keys in possibleDup) {
-    if (possibleDup[keys].length > 1) {
-      dupCount++;
+  candidateList.forEach((candidate) => {
+    const possibleDups = possibleDuplicates(candidate, candidateList);
+
+    if (possibleDups.length >= 2 && !duplicated.includes(candidate)) {
+      duplicateCount++;
+      duplicated.push(...possibleDups);
     }
-  }
+  });
 
-  return dupCount;
+  return duplicateCount;
 };
 
 export {
