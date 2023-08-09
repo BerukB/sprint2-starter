@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Job, Candidate, Skill } from "../common/model.js";
+import { Job, Candidate, Skill } from '../common/model.js';
 
 /**
  * Part 1: Basic utility functions.
@@ -62,25 +62,20 @@ const orderBySkills = (candidateList) => {
 
 const orderByWeightedSkills = (candidateList) => {
   candidateList.forEach((candidates) => {
-    if (candidates.skills.level === 0 || candidates.skills.level === null) {
-      candidates.skills.level = 1;
-    } else if (candidates.skills.level === 1) {
-      candidates.skills.level = 5;
-    } else if (candidates.skills.level === 2) {
-      candidates.skills.level = 10;
-    }
-  });
-
-  return candidateList.sort((a, b) => {
-    const sumA = a.skills.reduce((sumSkill, currentValue) => {
-      return sumSkill + currentValue.level;
-    }, 0);
-    const sumB = b.skills.reduce((sumSkill, currentValue) => {
-      return sumSkill + currentValue.level;
+    const weight = candidates.skills.reduce((sumSkill, currentValue) => {
+      if (currentValue.level === 2) {
+        return sumSkill + 10;
+      } else if (currentValue.level === 1) {
+        return sumSkill + 5;
+      } else {
+        return sumSkill + 1;
+      }
     }, 0);
 
-    return sumB - sumA;
+    candidates.weight = weight;
   });
+
+  return candidateList.sort((a, b) => b.weight - a.weight);
 };
 
 /**
@@ -93,7 +88,7 @@ const genderRatio = (candidateList) => {
   let numberOfFemale = 0;
 
   candidateList.forEach((candidate) => {
-    if (candidate.gender === "M") {
+    if (candidate.gender === 'M') {
       numberOfMale++;
     } else numberOfFemale++;
   });
@@ -162,5 +157,5 @@ export {
   orderByWeightedSkills,
   genderRatio,
   busiestMonth,
-  mostInDemandSkill,
+  mostInDemandSkill
 };
