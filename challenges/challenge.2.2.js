@@ -29,9 +29,23 @@ import { Candidate } from '../common/model.js';
  * @returns String
  */
 const normalizedName = (name) => {
-  // ----- Challenge 2.2.1 - Complete the function here ---- //
+  const vowels = /([aeiouAEIOU])/g;
+  const regex = /[^a-zA-Z]/g;
+  const firstLetter = name.charAt(0);
+  const noVowels = name.replace(vowels, '');
+  const noRegex = noVowels.replace(regex, '');
+  const preparedName = firstLetter.concat(noRegex);
 
-  return name;
+  let finalizedName = '';
+
+  for (const value of preparedName) {
+    if (!finalizedName.includes(value)) {
+      finalizedName += value;
+    }
+  }
+  const upperCase = finalizedName.toUpperCase();
+
+  return upperCase;
 };
 
 /**
@@ -44,7 +58,18 @@ const normalizedName = (name) => {
  * @returns true or false
  */
 const areSimilarCandidates = (candidate1, candidate2) => {
-  // ----- Challenge 2.2.2 - Complete the function here ---- //
+  const candidate1Name = normalizedName(candidate1.name);
+  const candidate2Name = normalizedName(candidate2.name);
+  const candidate1Dob = candidate1.dateOfBirth;
+  const candidate2Dob = candidate2.dateOfBirth;
+  const dobDifferenceInMs = Math.abs(
+    candidate1Dob.getTime() - candidate2Dob.getTime()
+  );
+  const dobDifferenceInDays = Math.floor(
+    dobDifferenceInMs / (1000 * 60 * 60 * 24)
+  );
+
+  if (candidate1Name === candidate2Name && dobDifferenceInDays < 10) return true;
 
   return false;
 };
@@ -57,9 +82,11 @@ const areSimilarCandidates = (candidate1, candidate2) => {
  * @param {Array<Candidate>} candidateList
  */
 const possibleDuplicates = (newCandidate, candidateList) => {
-  // ------ Challenge 2.2.3 - Complete the function here ---- //
+  const possibleDup = candidateList.filter((candiddates) => {
+    return areSimilarCandidates(newCandidate, candiddates);
+  });
 
-  return [];
+  return possibleDup;
 };
 
 /**
@@ -78,8 +105,17 @@ const possibleDuplicates = (newCandidate, candidateList) => {
  * @returns
  */
 const candidateIndex = (candidateList) => {
-  // ------ Challenge 2.2.4 - Complete the function here ---- //
-  return 0;
+  const candidateIndex = {};
+
+  candidateList.forEach((candidate) => {
+    const normalName = normalizedName(candidate.name);
+    // eslint-disable-next-line no-prototype-builtins
+    if (candidateIndex.hasOwnProperty(normalName)) {
+      candidateIndex[normalName].push(candidate);
+    } else candidateIndex[normalName] = [candidate];
+  });
+
+  return candidateIndex;
 };
 
 /**
@@ -93,8 +129,26 @@ const candidateIndex = (candidateList) => {
  * @returns
  */
 const duplicateCount = (candidateList) => {
-  // ------ Challenge 2.2.5 - Complete the function here ---- //
-  return 0;
+  // ------ Challenge 2.2.5 - Complete the function here ---- //\
+  let duplicateCount = 0;
+  const duplicated = [];
+
+  candidateList.forEach((candidate) => {
+    const possibleDups = possibleDuplicates(candidate, candidateList);
+
+    if (possibleDups.length >= 2 && !duplicated.includes(candidate)) {
+      duplicateCount++;
+      duplicated.push(...possibleDups);
+    }
+  });
+
+  return duplicateCount;
 };
 
-export { normalizedName, areSimilarCandidates, possibleDuplicates, duplicateCount, candidateIndex };
+export {
+  normalizedName,
+  areSimilarCandidates,
+  possibleDuplicates,
+  duplicateCount,
+  candidateIndex
+};

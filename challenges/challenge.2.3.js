@@ -18,9 +18,12 @@ import { Candidate, Job } from '../common/model.js';
  * @param {Skill} jobSkill
  */
 const skillsMatch = (candidateSkill, jobSkill) => {
-  // ----- Challenge 2.3.1 - Complete the function here ---- //
+  const cSName = candidateSkill.name.toLowerCase();
+  const jSName = jobSkill.name.toLowerCase();
+  const cSLevel = candidateSkill.level;
+  const jSLevel = jobSkill.level;
 
-  return false;
+  return cSName === jSName && cSLevel >= jSLevel;
 };
 
 /**
@@ -33,7 +36,9 @@ const skillsMatch = (candidateSkill, jobSkill) => {
  */
 const suitableGender = (candidate, job) => {
   // ----- Challenge 2.3.2 - Complete the function here ---- //
-  return false;
+  return (
+    candidate.gender === job.requiredGender || job.requiredGender === undefined
+  );
 };
 
 /**
@@ -50,8 +55,22 @@ const suitableGender = (candidate, job) => {
  */
 const suitabilityScore = (candidate, job) => {
   // ----- Challenge 2.3.3 - Complete the function here ---- //
+  let genderMatchCount = 0;
+  let skillMatchCount = 0;
 
-  return 0;
+  if (suitableGender(candidate, job) === true) genderMatchCount += 20;
+
+  for (const candidateSkill of candidate.skills) {
+    for (const jobSkill of job.requiredSkills) {
+      if (skillsMatch(candidateSkill, jobSkill)) skillMatchCount++;
+    }
+  }
+
+  const joblength = job.requiredSkills.length;
+  const candidateSuitability =
+    Math.round((skillMatchCount / joblength) * 80) + genderMatchCount;
+
+  return candidateSuitability;
 };
 
 /**
@@ -66,8 +85,18 @@ const suitabilityScore = (candidate, job) => {
  */
 const hottestCandidate = (candidates, jobs) => {
   // ----- Challenge 2.3.4 - Complete the function here ---- //
+  let hottestCandidateCount = 0;
+  for (const candidate of candidates) {
+    let temporaryCount = 0;
+    for (const job of jobs) {
+      if (suitabilityScore(candidate, job) > 80) temporaryCount++;
+    }
+    if (temporaryCount > hottestCandidateCount) {
+      hottestCandidateCount = temporaryCount;
+    }
+  }
 
-  return 0;
+  return hottestCandidateCount;
 };
 
 export { skillsMatch, suitableGender, suitabilityScore, hottestCandidate };
